@@ -181,6 +181,20 @@ video {
 }
 </style>
 </head>
+<!-- DESKTOP MODE NOTICE -->
+<div id="desktopNotice">
+  <div class="notice-box">
+    <h2>Desktop Mode Required</h2>
+    <p>
+      For the best experience,<br>
+      please enable <b>Desktop site</b><br>
+      from your browser settings.
+    </p>
+    <p class="hint">
+      (⋮ menu → Desktop site)
+    </p>
+  </div>
+</div>
 
 <body>
 
@@ -228,6 +242,66 @@ video {
 <div class="crt"></div>
 
 </div>
+<script>
+/* ===== DESKTOP MODE DETECTION ===== */
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+function isDesktopMode() {
+  return window.innerWidth >= 1024;
+}
+
+function checkDesktopMode() {
+  const notice = document.getElementById('desktopNotice');
+
+  if (isMobileDevice() && !isDesktopMode()) {
+    notice.style.display = 'flex';
+  } else {
+    notice.style.display = 'none';
+  }
+}
+
+checkDesktopMode();
+window.addEventListener('resize', checkDesktopMode);
+</script>
+/* ===== DESKTOP MODE NOTICE ===== */
+#desktopNotice {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  color: white;
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.notice-box {
+  max-width: 90%;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.1);
+}
+
+.notice-box h2 {
+  font-size: 2em;
+  margin-bottom: 15px;
+}
+
+.notice-box p {
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+
+.notice-box .hint {
+  margin-top: 20px;
+  font-size: 1em;
+  opacity: 0.7;
+}
+
 
 <script>
 /* ===== START EXPERIENCE ===== */
