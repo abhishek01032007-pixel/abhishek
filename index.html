@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+ <div class="description" style="font-family: 'Times New Roman', Times, serif;">
+  <p>
+    <h3>Solar System consists of the Sun and the celestial bodies bound to it by gravity,
+    including the eight planets, their moons, dwarf planets, comets, and asteroids.
+    This interactive gallery lets you explore some of the fascinating planets orbiting our star.</h3> 
+  </p>
+</div>
+
 <meta charset="UTF-8">
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Orbital Gallery</title>
+<title>Solar System Exploration</title>
 <link rel="icon" href="images/web icon.webp" type="image/x-icon">
 
 <style>
@@ -84,6 +92,7 @@ video {
   text-shadow: 2px 2px 8px black;
   z-index: 5;
   pointer-events: none;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 /* ========== SCENE ========== */
@@ -125,13 +134,14 @@ video {
   cursor: pointer;
 }
 
+/* LABEL STYLES (always visible) */
 .label {
   position: absolute;
   top: -32px;
   left: 50%;
   transform: translateX(-50%);
   padding: 6px 14px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: white;
   background: rgba(0,0,0,0.6);
@@ -139,6 +149,14 @@ video {
   white-space: nowrap;
   text-shadow: 1px 1px 4px black;
   pointer-events: none;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .label {
+    font-size: 18px;
+    padding: 8px 16px;
+  }
 }
 
 /* ========== OVERLAY ========== */
@@ -165,7 +183,10 @@ video {
   pointer-events: none;
   z-index: 30;
   animation: crtFlicker 0.15s infinite;
+  transform: translateZ(0); /* force GPU acceleration for smoother animation */
+  will-change: opacity, transform; /* hint browser to optimize */
 }
+
 
 .crt::before {
   content: "";
@@ -235,6 +256,20 @@ video {
   font-size: 1em;
   opacity: 0.7;
 }
+.description {
+  position: fixed;
+  top: 80px; /* slightly below the heading */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  color: white;
+  font-size: 1.2em;
+  text-align: center;
+  text-shadow: 1px 1px 4px black;
+  z-index: 5;
+  pointer-events: none;
+}
+
 </style>
 </head>
 
@@ -259,44 +294,20 @@ video {
 </div>
 
 <!-- HEADING -->
-<h1 class="page-heading">Galactic Viewer</h1>
+<h1 class="page-heading">Solar System Exploration</h1>
 
 <!-- SCENE -->
 <div class="scene">
   <div class="carousel" id="carousel">
 
-    <div class="card">
-      <span class="label">Mercury</span>
-      <img src="images/thumbnails/thumb1.jpg" data-large="images/large/big1.png">
-    </div>
-    <div class="card">
-      <span class="label">Venus</span>
-      <img src="images/thumbnails/thumb2.jpg" data-large="images/large/big2.png">
-    </div>
-    <div class="card">
-      <span class="label">Venus</span>
-      <img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png">
-    </div>
-    <div class="card">
-      <span class="label">Mars</span>
-      <img src="images/thumbnails/thumb4.jpg" data-large="images/large/big4.png">
-    </div>
-    <div class="card">
-      <span class="label">Jupiter</span>
-      <img src="images/thumbnails/thumb5.jpg" data-large="images/large/big5.png">
-    </div>
-    <div class="card">
-      <span class="label">Saturn</span>
-      <img src="images/thumbnails/thumb6.jpg" data-large="images/large/big6.png">
-    </div>
-    <div class="card">
-      <span class="label">Uranus</span>
-      <img src="images/thumbnails/thumb7.jpg" data-large="images/large/big7.png">
-    </div>
-    <div class="card">
-      <span class="label">Neptune</span>
-      <img src="images/thumbnails/thumb8.jpg" data-large="images/large/big8.png">
-    </div>
+    <div class="card"><span class="label">Mercury</span><img src="images/thumbnails/thumb1.jpg" data-large="images/large/big1.png"></div>
+    <div class="card"><span class="label">Venus</span><img src="images/thumbnails/thumb2.jpg" data-large="images/large/big2.png"></div>
+    <div class="card"><span class="label">Venus</span><img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png"></div>
+    <div class="card"><span class="label">Mars</span><img src="images/thumbnails/thumb4.jpg" data-large="images/large/big4.png"></div>
+    <div class="card"><span class="label">Jupiter</span><img src="images/thumbnails/thumb5.jpg" data-large="images/large/big5.png"></div>
+    <div class="card"><span class="label">Saturn</span><img src="images/thumbnails/thumb6.jpg" data-large="images/large/big6.png"></div>
+    <div class="card"><span class="label">Uranus</span><img src="images/thumbnails/thumb7.jpg" data-large="images/large/big7.png"></div>
+    <div class="card"><span class="label">Neptune</span><img src="images/thumbnails/thumb8.jpg" data-large="images/large/big8.png"></div>
 
   </div>
 </div>
