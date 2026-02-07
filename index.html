@@ -85,7 +85,7 @@ video {
 }
 .page-description {
   position: fixed;
-  top: 80px; /* adjust distance below the title */
+  top: 80px; /* default for desktop */
   left: 50%;
   transform: translateX(-50%);
   color: white;
@@ -96,6 +96,7 @@ video {
   text-shadow: 1px 1px 6px black;
   pointer-events: none;
 }
+
 
 /* ========== SCENE ========== */
 .scene {
@@ -246,6 +247,18 @@ video {
   font-size: 1em;
   opacity: 0.7;
 }
+@media (max-width: 768px) {
+  .page-description {
+    top: 120px;        /* move paragraph lower */
+    font-size: 1em;    /* slightly smaller font */
+    padding: 0 10px;   /* add horizontal padding */
+  }
+
+  .page-heading {
+    font-size: 2em;    /* reduce heading size for mobile */
+  }
+}
+
 </style>
 </head>
 
