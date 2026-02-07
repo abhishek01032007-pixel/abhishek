@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Orbital Gallery</title>
-<!-- Favicon -->
-<link rel="icon" href="images/web icon.webp " type="image/x-icon">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+<title>Orbital Gallery</title>
+<link rel="icon" href="images/web icon.webp" type="image/x-icon">
 
 <style>
 /* ========== BASE ========== */
@@ -16,6 +16,8 @@ html, body {
   font-family: sans-serif;
   background: black;
   cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 /* ========== VIDEO BACKGROUND ========== */
@@ -30,19 +32,7 @@ video {
   z-index: -2;
 }
 
-/* --- Audio prompt overlay --- */
-.audio-overlay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 2em;
-  text-shadow: 2px 2px 8px black;
-  z-index: 5;
-  text-align: center;
-}
-/* --- Opening Screen / Audio Prompt --- */
+/* ========== OPENING SCREEN ========== */
 #openingScreen {
   position: fixed;
   inset: 0;
@@ -54,24 +44,20 @@ video {
   color: white;
   text-align: center;
   z-index: 10;
-  font-size: 2em;
   cursor: pointer;
 }
 
 #openingScreen h1 {
-  font-family: 'MonospaceOrbitron', sans-serif; /* futuristic space font */
-    font-size: 3em;
- 
-  margin-bottom: 20px;
+  font-size: 3em;
   text-shadow: 2px 2px 8px black;
 }
 
 #openingScreen p {
-  font-size: 1.5em;
+  font-size: 1.4em;
   text-shadow: 1px 1px 6px black;
 }
 
-/* --- Page heading --- */
+/* ========== PAGE HEADING ========== */
 .page-heading {
   position: fixed;
   top: 20px;
@@ -79,29 +65,28 @@ video {
   transform: translateX(-50%);
   color: white;
   font-size: 2.5em;
-  font-family: 'Arial', sans-serif;
   text-shadow: 2px 2px 8px black;
   z-index: 5;
-  text-align: center;
   pointer-events: none;
 }
 
-/* --- Centered 3D carousel scene --- */
+/* ========== SCENE ========== */
 .scene {
-  width: 900px;
-  height: 500px;
-  perspective: 1400px;
+  width: min(90vw, 900px);
+  height: min(55vw, 500px);
+  max-height: 500px;
+  perspective: 1200px;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
-/* --- 3D carousel container --- */
+/* ========== CAROUSEL ========== */
 .carousel {
   width: 100%;
   height: 100%;
@@ -111,8 +96,9 @@ video {
 
 .carousel img {
   position: absolute;
-  width: 260px;
-  height: 170px;
+  width: min(70vw, 260px);
+  height: auto;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   border-radius: 14px;
   left: 50%;
@@ -122,7 +108,7 @@ video {
   cursor: pointer;
 }
 
-/* --- Overlay for large image --- */
+/* ========== OVERLAY ========== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -134,12 +120,10 @@ video {
 }
 
 .overlay img {
-  width: auto;
-  height: 60%;
-  max-width: 70%;
+  max-width: 90%;
+  max-height: 70%;
   border-radius: 16px;
   box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-  transition: transform 0.3s ease;
 }
 
 /* ========== CRT EFFECT ========== */
@@ -148,9 +132,9 @@ video {
   inset: 0;
   pointer-events: none;
   z-index: 20;
+  animation: crtFlicker 0.15s infinite;
 }
 
-/* Scanlines */
 .crt::before {
   content: "";
   position: absolute;
@@ -165,7 +149,6 @@ video {
   mix-blend-mode: overlay;
 }
 
-/* Vignette */
 .crt::after {
   content: "";
   position: absolute;
@@ -178,52 +161,40 @@ video {
   );
 }
 
-/* Flicker */
 @keyframes crtFlicker {
   0% { opacity: 0.96; }
   50% { opacity: 1; }
   100% { opacity: 0.97; }
 }
 
-.crt {
-  animation: crtFlicker 0.15s infinite;
-}
-
-/* RGB split */
-body {
-  text-shadow: 1px 0 red, -1px 0 cyan;
+/* ========== MOBILE TEXT SCALE ========== */
+@media (max-width: 768px) {
+  #openingScreen h1 { font-size: 2em; }
+  #openingScreen p { font-size: 1.1em; }
+  .page-heading { font-size: 1.6em; top: 10px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- VIDEO BACKGROUND -->
+<!-- VIDEO -->
 <video autoplay muted loop>
   <source src="videos/vidio_back.mp4" type="video/mp4">
 </video>
 
 <!-- AUDIO -->
-<audio id="bg-audio" loop>
+<audio id="bgAudio" loop>
   <source src="audio/audio1.mp3" type="audio/mpeg">
 </audio>
 
-<!-- AUDIO PROMPT -->
-<div class="audio-overlay" id="audioPrompt">
-  Click anywhere to enable sound
-</div>
-
-<!-- OPENING SCREEN -->\
- 
+<!-- OPENING SCREEN -->
 <div id="openingScreen">
-  
-    <h1>Exploring Our Solar System  </h1>
-  <p>Click anywhere to start the journey</p>
-
-
+  <h1>Exploring Our Solar System</h1>
+  <p>Tap anywhere to start</p>
 </div>
 
-<!-- PAGE HEADING -->
+<!-- HEADING -->
 <h1 class="page-heading">Galactic Viewer</h1>
 
 <!-- SCENE -->
@@ -245,37 +216,22 @@ body {
   <img id="overlayImg">
 </div>
 
-<!-- CRT LAYER -->
+<!-- CRT -->
 <div class="crt"></div>
 
 <script>
-  /* ========== START OPENING SCREEN ========== */
+/* ===== START EXPERIENCE (MOBILE SAFE AUDIO) ===== */
 const openingScreen = document.getElementById('openingScreen');
-const bgAudio = document.getElementById('bg-audio');
-const pageHeading = document.querySelector('.page-heading');
-const scene = document.querySelector('.scene');
+const bgAudio = document.getElementById('bgAudio');
 
-openingScreen.addEventListener('click', () => {
-  // Hide opening screen
+function startExperience() {
   openingScreen.style.display = 'none';
-  
-  // Show carousel and heading
-  scene.style.display = 'flex';
-  pageHeading.style.display = 'block';
-
-  // Play audio
-  bgAudio.play();
-});
-
-/* ========== AUDIO ENABLE ========== */
-function enableAudio() {
-  document.getElementById('bg-audio').play();
-  document.getElementById('audioPrompt').style.display = 'none';
-  document.body.removeEventListener('click', enableAudio);
+  bgAudio.play().catch(()=>{});
+  document.body.removeEventListener('click', startExperience);
 }
-document.body.addEventListener('click', enableAudio);
+document.body.addEventListener('click', startExperience);
 
-/* ========== MANUAL 3D CAROUSEL ========== */
+/* ===== CAROUSEL ===== */
 const carousel = document.getElementById('carousel');
 const images = carousel.querySelectorAll('img');
 const overlay = document.getElementById('overlay');
@@ -297,11 +253,12 @@ function updateCarousel() {
     const z = Math.cos(a) * radius;
     const scale = (z + radius) / (2 * radius) * 0.7 + 0.3;
 
-    img.style.transform =
-      `translate(-50%, -50%)
+    img.style.transform = `
+      translate(-50%, -50%)
       translateX(${x}px)
       translateZ(${z}px)
-      scale(${scale})`;
+      scale(${scale})
+    `;
 
     img.style.opacity = scale;
     img.style.zIndex = Math.round(z);
@@ -309,43 +266,49 @@ function updateCarousel() {
 }
 updateCarousel();
 
-/* Drag */
+/* MOUSE */
 carousel.addEventListener('mousedown', e => {
   isDragging = true;
   startX = e.clientX;
 });
-
-window.addEventListener('mouseup', () => {
-  isDragging = false;
-});
-
+window.addEventListener('mouseup', () => isDragging = false);
 window.addEventListener('mousemove', e => {
   if (!isDragging) return;
-  const dx = e.clientX - startX;
-  angle += dx * 0.3;
+  angle += (e.clientX - startX) * 0.3;
   startX = e.clientX;
   updateCarousel();
 });
 
-/* Scroll */
+/* TOUCH */
+carousel.addEventListener('touchstart', e => {
+  isDragging = true;
+  startX = e.touches[0].clientX;
+});
+carousel.addEventListener('touchend', () => isDragging = false);
+carousel.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const x = e.touches[0].clientX;
+  angle += (x - startX) * 0.3;
+  startX = x;
+  updateCarousel();
+});
+
+/* SCROLL */
 window.addEventListener('wheel', e => {
   angle += e.deltaY > 0 ? -10 : 10;
   updateCarousel();
 });
 
-/* Overlay */
+/* OVERLAY */
 images.forEach(img => {
   img.addEventListener('click', () => {
     overlayImg.src = img.dataset.large;
     overlay.style.display = 'flex';
   });
 });
+overlay.addEventListener('click', () => overlay.style.display = 'none');
 
-overlay.addEventListener('click', () => {
-  overlay.style.display = 'none';
-});
-
-/* CRT subtle jitter */
+/* CRT JITTER */
 setInterval(() => {
   document.body.style.transform =
     `translate(${(Math.random()-0.5)*0.3}px, ${(Math.random()-0.5)*0.3}px)`;
