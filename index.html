@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solar System Exploration</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Orbital Gallery</title>
 <link rel="icon" href="images/web icon.webp" type="image/x-icon">
 
 <style>
@@ -13,7 +14,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: sans-serif;
   background: black;
   cursor: grab;
   touch-action: pan-y;
@@ -25,6 +26,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   transform-origin: top center;
+  display: block;
 }
 
 /* ========== VIDEO BACKGROUND ========== */
@@ -74,22 +76,6 @@ video {
   text-shadow: 2px 2px 8px black;
   z-index: 5;
   pointer-events: none;
-  font-family: 'Times New Roman', Times, serif;
-}
-
-/* ========== DESCRIPTION UNDER TITLE ========== */
-.description {
-  position: fixed;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  color: white;
-  font-size: 1.2em;
-  text-align: center;
-  text-shadow: 1px 1px 4px black;
-  z-index: 5;
-  pointer-events: none;
 }
 
 /* ========== SCENE ========== */
@@ -106,7 +92,7 @@ video {
   align-items: center;
 }
 
-/* ========== CAROUSEL ====== */
+/* ========== CAROUSEL ========== */
 .carousel {
   width: 100%;
   height: 100%;
@@ -114,7 +100,6 @@ video {
   transform-style: preserve-3d;
 }
 
-/* ===== IMAGE CARD WITH LABEL ===== */
 .card {
   position: absolute;
   left: 50%;
@@ -131,9 +116,10 @@ video {
   cursor: pointer;
 }
 
+/* ========== LABEL ON IMAGE ====== */
 .label {
   position: absolute;
-  top: -32px;
+  top: -28px;
   left: 50%;
   transform: translateX(-50%);
   padding: 6px 14px;
@@ -142,49 +128,26 @@ video {
   color: white;
   background: rgba(0,0,0,0.6);
   border-radius: 20px;
-  white-space: nowrap;
   text-shadow: 1px 1px 4px black;
   pointer-events: none;
   z-index: 10;
-}
-
-@media (min-width: 1024px) {
-  .label {
-    font-size: 18px;
-    padding: 8px 16px;
-  }
 }
 
 /* ========== OVERLAY ========== */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.7);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 20;
 }
 
-.overlay-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  color: white;
-  max-width: 90%;
-}
-
 .overlay img {
   max-width: 70%;
   max-height: 60%;
   border-radius: 16px;
-}
-
-#overlayDesc {
-  margin-top: 15px;
-  font-size: 1em;
-  line-height: 1.4;
 }
 
 /* ========== CRT EFFECT ========== */
@@ -194,8 +157,6 @@ video {
   pointer-events: none;
   z-index: 30;
   animation: crtFlicker 0.15s infinite;
-  transform: translateZ(0);
-  will-change: opacity, transform;
 }
 
 .crt::before {
@@ -230,7 +191,7 @@ video {
   100% { opacity: 0.97; }
 }
 
-/* ===== DESKTOP MODE NOTICE ===== */
+/* ===== DESKTOP MODE MESSAGE ===== */
 #desktopNotice {
   position: fixed;
   inset: 0;
@@ -271,6 +232,22 @@ video {
 
 <body>
 
+<!-- DESKTOP MODE NOTICE -->
+<div id="desktopNotice">
+  <div class="notice-box">
+    <h2>Desktop Mode Required</h2>
+    <p>
+      For the best experience,<br>
+      please enable <b>Desktop site</b><br>
+      in your browser settings.
+    </p>
+    <p class="hint">
+      Chrome / Edge / Samsung:<br>
+      ⋮ menu → <b>Desktop site</b>
+    </p>
+  </div>
+</div>
+
 <div id="desktopScale">
 
 <!-- VIDEO -->
@@ -286,26 +263,18 @@ video {
 <!-- OPENING SCREEN -->
 <div id="openingScreen">
   <h1>Exploring Our Solar System</h1>
-  <p>Click anywhere to start</p>
+  <p>Tap anywhere to start</p>
 </div>
 
 <!-- HEADING -->
-<h1 class="page-heading">Solar System Exploration</h1>
-
-<!-- DESCRIPTION -->
-<div class="description">
-  <p>
-  Solar System consists of the Sun and the celestial bodies bound to it by gravity, including the eight planets, their moons, dwarf planets, comets, and asteroids.
-  This interactive gallery lets you explore some of the fascinating planets orbiting our star.
-</p>
-</div>
+<h1 class="page-heading">Galactic Viewer</h1>
 
 <!-- SCENE -->
 <div class="scene">
   <div class="carousel" id="carousel">
     <div class="card"><span class="label">Mercury</span><img src="images/thumbnails/thumb1.jpg" data-large="images/large/big1.png"></div>
     <div class="card"><span class="label">Venus</span><img src="images/thumbnails/thumb2.jpg" data-large="images/large/big2.png"></div>
-    <div class="card"><span class="label">Earth</span><img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png"></div>
+    <div class="card"><span class="label">Venus</span><img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png"></div>
     <div class="card"><span class="label">Mars</span><img src="images/thumbnails/thumb4.jpg" data-large="images/large/big4.png"></div>
     <div class="card"><span class="label">Jupiter</span><img src="images/thumbnails/thumb5.jpg" data-large="images/large/big5.png"></div>
     <div class="card"><span class="label">Saturn</span><img src="images/thumbnails/thumb6.jpg" data-large="images/large/big6.png"></div>
@@ -316,30 +285,11 @@ video {
 
 <!-- OVERLAY -->
 <div class="overlay" id="overlay">
-  <div class="overlay-content">
-    <img id="overlayImg">
-    <p id="overlayDesc"></p>
-  </div>
+  <img id="overlayImg">
 </div>
 
 <!-- CRT -->
 <div class="crt"></div>
-
-<!-- DESKTOP MODE NOTICE (MOBILE ONLY) -->
-<div id="desktopNotice">
-  <div class="notice-box">
-    <h2>Desktop Mode Required</h2>
-    <p>
-      For the best experience,<br>
-      please enable <b>Desktop site</b><br>
-      in your browser settings.
-    </p>
-    <p class="hint">
-      Chrome / Edge / Samsung:<br>
-      ⋮ menu → <b>Desktop site</b>
-    </p>
-  </div>
-</div>
 
 </div>
 
@@ -358,10 +308,8 @@ const carousel = document.getElementById('carousel');
 const cards = carousel.querySelectorAll('.card');
 const overlay = document.getElementById('overlay');
 const overlayImg = document.getElementById('overlayImg');
-const overlayDesc = document.getElementById('overlayDesc');
 
-let currentAngle = 0;
-let targetAngle = 0;
+let angle = 0;
 let isDragging = false;
 let startX = 0;
 
@@ -370,10 +318,8 @@ function updateCarousel() {
   const radius = 600;
   const spread = 420;
 
-  currentAngle += (targetAngle - currentAngle) * 0.08;
-
   cards.forEach((card, i) => {
-    const a = (step * i + currentAngle) * Math.PI / 180;
+    const a = (step * i + angle) * Math.PI / 180;
     const x = Math.sin(a) * spread;
     const z = Math.cos(a) * radius;
     const scale = (z + radius) / (2 * radius) * 0.7 + 0.3;
@@ -387,62 +333,80 @@ function updateCarousel() {
     card.style.opacity = scale;
     card.style.zIndex = Math.round(z);
   });
-
-  requestAnimationFrame(updateCarousel);
 }
 updateCarousel();
 
-/* ===== MOUSE & TOUCH ===== */
-carousel.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
+/* MOUSE */
+carousel.addEventListener('mousedown', e => {
+  isDragging = true;
+  startX = e.clientX;
+});
 window.addEventListener('mouseup', () => isDragging = false);
 window.addEventListener('mousemove', e => {
   if (!isDragging) return;
-  targetAngle += (e.clientX - startX) * 0.3;
+  angle += (e.clientX - startX) * 0.3;
   startX = e.clientX;
+  updateCarousel();
 });
 
-/* ===== PLANET INFO ===== */
-const planetInfo = {
-  Mercury: "Mercury is the closest planet to the Sun and the smallest in our Solar System.",
-  Venus: "Venus has a thick, toxic atmosphere and is the hottest planet.",
-  Earth: "Earth is our home planet, with abundant water and life.",
-  Mars: "Mars is the Red Planet, known for its iron oxide surface.",
-  Jupiter: "Jupiter is the largest planet, famous for its Great Red Spot.",
-  Saturn: "Saturn is known for its stunning rings.",
-  Uranus: "Uranus rotates on its side and has a faint ring system.",
-  Neptune: "Neptune is a deep blue planet with strong winds."
-};
+/* TOUCH */
+carousel.addEventListener('touchstart', e => {
+  isDragging = true;
+  startX = e.touches[0].clientX;
+});
+carousel.addEventListener('touchend', () => isDragging = false);
+carousel.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  const x = e.touches[0].clientX;
+  angle += (x - startX) * 0.3;
+  startX = x;
+  updateCarousel();
+});
 
+/* SCROLL */
+window.addEventListener('wheel', e => {
+  angle += e.deltaY > 0 ? -10 : 10;
+  updateCarousel();
+});
+
+/* OVERLAY */
 cards.forEach(card => {
   const img = card.querySelector('img');
-  const label = card.querySelector('.label').innerText;
   img.addEventListener('click', () => {
     overlayImg.src = img.dataset.large;
-    overlayDesc.innerText = planetInfo[label] || "";
     overlay.style.display = 'flex';
   });
 });
 overlay.addEventListener('click', () => overlay.style.display = 'none');
 
-/* ===== CRT JITTER ===== */
+/* CRT JITTER */
 setInterval(() => {
   document.body.style.transform =
     `translate(${(Math.random()-0.5)*0.3}px, ${(Math.random()-0.5)*0.3}px)`;
 }, 60);
 
-/* ===== DESKTOP NOTICE ===== */
+/* ===== FORCE DESKTOP MODE ===== */
 function isMobileDevice() {
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
+function isDesktopMode() {
+  return window.innerWidth >= 1024;
+}
+
 function checkDesktopMode() {
   const notice = document.getElementById('desktopNotice');
-  if (isMobileDevice()) {
-    notice.style.display = 'flex';
+  const desktopScale = document.getElementById('desktopScale');
+
+  if (isMobileDevice() && !isDesktopMode()) {
+    notice.style.display = 'flex';      // show notice
+    desktopScale.style.display = 'none'; // hide main content
   } else {
     notice.style.display = 'none';
+    desktopScale.style.display = 'block';
   }
 }
+
 checkDesktopMode();
 window.addEventListener('resize', checkDesktopMode);
 </script>
