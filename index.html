@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <title>Orbital Gallery</title>
 <link rel="icon" href="images/web icon.webp" type="image/x-icon">
 
@@ -101,7 +100,7 @@ video {
   align-items: center;
 }
 
-/* ========== CAROUSEL ========== */
+/* ========== CAROUSEL ====== */
 .carousel {
   width: 100%;
   height: 100%;
@@ -109,17 +108,37 @@ video {
   transform-style: preserve-3d;
 }
 
-.carousel img {
+/* ===== IMAGE CARD WITH LABEL ===== */
+.card {
   position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+}
+
+.card img {
   width: 260px;
   height: 170px;
   object-fit: cover;
   border-radius: 14px;
-  left: 50%;
-  top: 50%;
-  transition: transform 0.4s ease, opacity 0.4s ease;
   box-shadow: 0 25px 50px rgba(0,0,0,0.6);
   cursor: pointer;
+}
+
+.label {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: rgba(0,0,0,0.6);
+  border-radius: 20px;
+  white-space: nowrap;
+  text-shadow: 1px 1px 4px black;
+  pointer-events: none;
 }
 
 /* ========== OVERLAY ========== */
@@ -179,6 +198,7 @@ video {
   50% { opacity: 1; }
   100% { opacity: 0.97; }
 }
+
 /* ===== DESKTOP MODE MESSAGE ===== */
 #desktopNotice {
   position: fixed;
@@ -215,24 +235,8 @@ video {
   font-size: 1em;
   opacity: 0.7;
 }
-
 </style>
 </head>
-<!-- DESKTOP MODE NOTICE (MOBILE ONLY) -->
-<div id="desktopNotice">
-  <div class="notice-box">
-    <h2>Desktop Mode Required</h2>
-    <p>
-      For the best experience,<br>
-      please enable <b>Desktop site</b><br>
-      in your browser settings.
-    </p>
-    <p class="hint">
-      Chrome / Edge / Samsung:<br>
-      ⋮ menu → <b>Desktop site</b>
-    </p>
-  </div>
-</div>
 
 <body>
 
@@ -260,14 +264,40 @@ video {
 <!-- SCENE -->
 <div class="scene">
   <div class="carousel" id="carousel">
-    <img src="images/thumbnails/thumb1.jpg" data-large="images/large/big1.png">
-    <img src="images/thumbnails/thumb2.jpg" data-large="images/large/big2.png">
-    <img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png">
-    <img src="images/thumbnails/thumb4.jpg" data-large="images/large/big4.png">
-    <img src="images/thumbnails/thumb5.jpg" data-large="images/large/big5.png">
-    <img src="images/thumbnails/thumb6.jpg" data-large="images/large/big6.png">
-    <img src="images/thumbnails/thumb7.jpg" data-large="images/large/big7.png">
-    <img src="images/thumbnails/thumb8.jpg" data-large="images/large/big8.png">
+
+    <div class="card">
+      <span class="label">Mercury</span>
+      <img src="images/thumbnails/thumb1.jpg" data-large="images/large/big1.png">
+    </div>
+    <div class="card">
+      <span class="label">Venus</span>
+      <img src="images/thumbnails/thumb2.jpg" data-large="images/large/big2.png">
+    </div>
+    <div class="card">
+      <span class="label">Venus</span>
+      <img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png">
+    </div>
+    <div class="card">
+      <span class="label">Mars</span>
+      <img src="images/thumbnails/thumb4.jpg" data-large="images/large/big4.png">
+    </div>
+    <div class="card">
+      <span class="label">Jupiter</span>
+      <img src="images/thumbnails/thumb5.jpg" data-large="images/large/big5.png">
+    </div>
+    <div class="card">
+      <span class="label">Saturn</span>
+      <img src="images/thumbnails/thumb6.jpg" data-large="images/large/big6.png">
+    </div>
+    <div class="card">
+      <span class="label">Uranus</span>
+      <img src="images/thumbnails/thumb7.jpg" data-large="images/large/big7.png">
+    </div>
+    <div class="card">
+      <span class="label">Neptune</span>
+      <img src="images/thumbnails/thumb8.jpg" data-large="images/large/big8.png">
+    </div>
+
   </div>
 </div>
 
@@ -278,6 +308,15 @@ video {
 
 <!-- CRT -->
 <div class="crt"></div>
+
+<!-- DESKTOP MODE NOTICE -->
+<div id="desktopNotice">
+  <div class="notice-box">
+    <h2>Desktop Mode Required</h2>
+    <p>For the best experience,<br>please enable <b>Desktop site</b> in your browser settings.</p>
+    <p class="hint">Chrome / Edge / Samsung:<br>⋮ menu → <b>Desktop site</b></p>
+  </div>
+</div>
 
 </div>
 
@@ -293,72 +332,66 @@ document.body.addEventListener('click', () => {
 
 /* ===== CAROUSEL ===== */
 const carousel = document.getElementById('carousel');
-const images = carousel.querySelectorAll('img');
+const cards = carousel.querySelectorAll('.card');
 const overlay = document.getElementById('overlay');
 const overlayImg = document.getElementById('overlayImg');
 
-let angle = 0;
+let currentAngle = 0;    // current displayed angle
+let targetAngle = 0;     // target angle for smooth roll
 let isDragging = false;
 let startX = 0;
 
 function updateCarousel() {
-  const step = 360 / images.length;
+  const step = 360 / cards.length;
   const radius = 600;
   const spread = 420;
 
-  images.forEach((img, i) => {
-    const a = (step * i + angle) * Math.PI / 180;
+  // Smooth interpolation for roll effect
+  currentAngle += (targetAngle - currentAngle) * 0.08;
+
+  cards.forEach((card, i) => {
+    const a = (step * i + currentAngle) * Math.PI / 180;
     const x = Math.sin(a) * spread;
     const z = Math.cos(a) * radius;
     const scale = (z + radius) / (2 * radius) * 0.7 + 0.3;
 
-    img.style.transform = `
+    card.style.transform = `
       translate(-50%, -50%)
       translateX(${x}px)
       translateZ(${z}px)
       scale(${scale})
     `;
-    img.style.opacity = scale;
-    img.style.zIndex = Math.round(z);
+    card.style.opacity = scale;
+    card.style.zIndex = Math.round(z);
   });
+
+  requestAnimationFrame(updateCarousel);
 }
 updateCarousel();
 
-/* MOUSE */
-carousel.addEventListener('mousedown', e => {
-  isDragging = true;
-  startX = e.clientX;
-});
+/* ===== MOUSE & TOUCH ===== */
+carousel.addEventListener('mousedown', e => { isDragging = true; startX = e.clientX; });
 window.addEventListener('mouseup', () => isDragging = false);
 window.addEventListener('mousemove', e => {
   if (!isDragging) return;
-  angle += (e.clientX - startX) * 0.3;
+  targetAngle += (e.clientX - startX) * 0.3;
   startX = e.clientX;
-  updateCarousel();
 });
 
-/* TOUCH */
-carousel.addEventListener('touchstart', e => {
-  isDragging = true;
-  startX = e.touches[0].clientX;
-});
+carousel.addEventListener('touchstart', e => { isDragging = true; startX = e.touches[0].clientX; });
 carousel.addEventListener('touchend', () => isDragging = false);
 carousel.addEventListener('touchmove', e => {
   if (!isDragging) return;
-  const x = e.touches[0].clientX;
-  angle += (x - startX) * 0.3;
-  startX = x;
-  updateCarousel();
+  targetAngle += (e.touches[0].clientX - startX) * 0.3;
+  startX = e.touches[0].clientX;
 });
 
-/* SCROLL */
-window.addEventListener('wheel', e => {
-  angle += e.deltaY > 0 ? -10 : 10;
-  updateCarousel();
-});
+/* ===== SCROLL ===== */
+window.addEventListener('wheel', e => { targetAngle += e.deltaY > 0 ? -10 : 10; });
 
-/* OVERLAY */
-images.forEach(img => {
+/* ===== OVERLAY ===== */
+cards.forEach(card => {
+  const img = card.querySelector('img');
   img.addEventListener('click', () => {
     overlayImg.src = img.dataset.large;
     overlay.style.display = 'flex';
@@ -366,35 +399,30 @@ images.forEach(img => {
 });
 overlay.addEventListener('click', () => overlay.style.display = 'none');
 
-/* CRT JITTER */
+/* ===== CRT JITTER ===== */
 setInterval(() => {
   document.body.style.transform =
     `translate(${(Math.random()-0.5)*0.3}px, ${(Math.random()-0.5)*0.3}px)`;
 }, 60);
 
-</script>
-<script>
-/* ===== SHOW DESKTOP MODE MESSAGE ON MOBILE ONLY ===== */
+/* ===== MOBILE DESKTOP MODE WARNING ===== */
 function isMobileDevice() {
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
-
 function isDesktopMode() {
   return window.innerWidth >= 1024;
 }
-
 function checkDesktopMode() {
   const notice = document.getElementById('desktopNotice');
-
   if (isMobileDevice() && !isDesktopMode()) {
     notice.style.display = 'flex';
   } else {
     notice.style.display = 'none';
   }
 }
-
 checkDesktopMode();
 window.addEventListener('resize', checkDesktopMode);
 </script>
+
 </body>
 </html>
