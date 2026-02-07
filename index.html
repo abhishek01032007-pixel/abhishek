@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Orbital Gallery</title>
+<h1 class="page-heading">Galactic Viewer</h1>
+<p class="page-description">
+  Solar System consists of the Sun and the celestial bodies bound to it by gravity,
+  including the eight planets, their moons, dwarf planets, comets, and asteroids.
+  This interactive gallery lets you explore some of the fascinating planets orbiting our star.
+</p>
+
 <link rel="icon" href="images/web icon.webp" type="image/x-icon">
 
 <style>
@@ -75,6 +81,19 @@ video {
   font-size: 2.5em;
   text-shadow: 2px 2px 8px black;
   z-index: 5;
+  pointer-events: none;
+}
+.page-description {
+  position: fixed;
+  top: 80px; /* adjust distance below the title */
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1.2em;
+  text-align: center;
+  max-width: 90%;
+  z-index: 5;
+  text-shadow: 1px 1px 6px black;
   pointer-events: none;
 }
 
@@ -272,14 +291,14 @@ video {
 <!-- SCENE -->
 <div class="scene">
   <div class="carousel" id="carousel">
-    <div class="card"><span class="label">Mercury</span><img src="images/thumbnails/thumb1.jpg" data-large="images/large/big1.png"></div>
-    <div class="card"><span class="label">Venus</span><img src="images/thumbnails/thumb2.jpg" data-large="images/large/big2.png"></div>
-    <div class="card"><span class="label">Venus</span><img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png"></div>
-    <div class="card"><span class="label">Mars</span><img src="images/thumbnails/thumb4.jpg" data-large="images/large/big4.png"></div>
-    <div class="card"><span class="label">Jupiter</span><img src="images/thumbnails/thumb5.jpg" data-large="images/large/big5.png"></div>
-    <div class="card"><span class="label">Saturn</span><img src="images/thumbnails/thumb6.jpg" data-large="images/large/big6.png"></div>
-    <div class="card"><span class="label">Uranus</span><img src="images/thumbnails/thumb7.jpg" data-large="images/large/big7.png"></div>
-    <div class="card"><span class="label">Neptune</span><img src="images/thumbnails/thumb8.jpg" data-large="images/large/big8.png"></div>
+    <div class="card"><span class="label">1.Mercury</span><img src="images/thumbnails/thumb1.jpg" data-large="images/large/big1.png"></div>
+    <div class="card"><span class="label">2.Venus</span><img src="images/thumbnails/thumb2.jpg" data-large="images/large/big2.png"></div>
+    <div class="card"><span class="label">3.Venus</span><img src="images/thumbnails/thumb3.jpg" data-large="images/large/big3.png"></div>
+    <div class="card"><span class="label">4.Mars</span><img src="images/thumbnails/thumb4.jpg" data-large="images/large/big4.png"></div>
+    <div class="card"><span class="label">5.Jupiter</span><img src="images/thumbnails/thumb5.jpg" data-large="images/large/big5.png"></div>
+    <div class="card"><span class="label">6.Saturn</span><img src="images/thumbnails/thumb6.jpg" data-large="images/large/big6.png"></div>
+    <div class="card"><span class="label">7.Uranus</span><img src="images/thumbnails/thumb7.jpg" data-large="images/large/big7.png"></div>
+    <div class="card"><span class="label">8.Neptune</span><img src="images/thumbnails/thumb8.jpg" data-large="images/large/big8.png"></div>
   </div>
 </div>
 
