@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Orbital Gallery</title>
 <link rel="icon" href="images/web icon.webp" type="image/x-icon">
@@ -11,6 +12,7 @@
 /* ========== BASE ========== */
 html, body {
   margin: 0;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   font-family: sans-serif;
@@ -18,6 +20,22 @@ html, body {
   cursor: grab;
   touch-action: pan-y;
   user-select: none;
+}
+
+/* ===== DESKTOP SCALE WRAPPER ===== */
+#desktopScale {
+  width: 100vw;
+  height: 100vh;
+  transform-origin: top center;
+}
+
+/* Mobile zoom-out like laptop */
+@media (max-width: 768px) {
+  #desktopScale {
+    transform: scale(0.78);
+    width: 128vw;
+    height: 128vh;
+  }
 }
 
 /* ========== VIDEO BACKGROUND ========== */
@@ -54,7 +72,6 @@ video {
 
 #openingScreen p {
   font-size: 1.4em;
-  text-shadow: 1px 1px 6px black;
 }
 
 /* ========== PAGE HEADING ========== */
@@ -72,10 +89,9 @@ video {
 
 /* ========== SCENE ========== */
 .scene {
-  width: min(90vw, 900px);
-  height: min(55vw, 500px);
-  max-height: 500px;
-  perspective: 1200px;
+  width: 900px;
+  height: 500px;
+  perspective: 1400px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -83,7 +99,6 @@ video {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
 }
 
 /* ========== CAROUSEL ========== */
@@ -96,9 +111,8 @@ video {
 
 .carousel img {
   position: absolute;
-  width: min(70vw, 260px);
-  height: auto;
-  aspect-ratio: 3 / 2;
+  width: 260px;
+  height: 170px;
   object-fit: cover;
   border-radius: 14px;
   left: 50%;
@@ -116,14 +130,13 @@ video {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 20;
 }
 
 .overlay img {
-  max-width: 90%;
-  max-height: 70%;
+  max-width: 70%;
+  max-height: 60%;
   border-radius: 16px;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.8);
 }
 
 /* ========== CRT EFFECT ========== */
@@ -131,7 +144,7 @@ video {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 20;
+  z-index: 30;
   animation: crtFlicker 0.15s infinite;
 }
 
@@ -166,17 +179,12 @@ video {
   50% { opacity: 1; }
   100% { opacity: 0.97; }
 }
-
-/* ========== MOBILE TEXT SCALE ========== */
-@media (max-width: 768px) {
-  #openingScreen h1 { font-size: 2em; }
-  #openingScreen p { font-size: 1.1em; }
-  .page-heading { font-size: 1.6em; top: 10px; }
-}
 </style>
 </head>
 
 <body>
+
+<div id="desktopScale">
 
 <!-- VIDEO -->
 <video autoplay muted loop>
@@ -211,7 +219,7 @@ video {
   </div>
 </div>
 
-<!-- IMAGE OVERLAY -->
+<!-- OVERLAY -->
 <div class="overlay" id="overlay">
   <img id="overlayImg">
 </div>
@@ -219,17 +227,17 @@ video {
 <!-- CRT -->
 <div class="crt"></div>
 
+</div>
+
 <script>
-/* ===== START EXPERIENCE (MOBILE SAFE AUDIO) ===== */
+/* ===== START EXPERIENCE ===== */
 const openingScreen = document.getElementById('openingScreen');
 const bgAudio = document.getElementById('bgAudio');
 
-function startExperience() {
+document.body.addEventListener('click', () => {
   openingScreen.style.display = 'none';
   bgAudio.play().catch(()=>{});
-  document.body.removeEventListener('click', startExperience);
-}
-document.body.addEventListener('click', startExperience);
+}, { once: true });
 
 /* ===== CAROUSEL ===== */
 const carousel = document.getElementById('carousel');
@@ -237,13 +245,12 @@ const images = carousel.querySelectorAll('img');
 const overlay = document.getElementById('overlay');
 const overlayImg = document.getElementById('overlayImg');
 
-const count = images.length;
 let angle = 0;
 let isDragging = false;
 let startX = 0;
 
 function updateCarousel() {
-  const step = 360 / count;
+  const step = 360 / images.length;
   const radius = 600;
   const spread = 420;
 
@@ -259,7 +266,6 @@ function updateCarousel() {
       translateZ(${z}px)
       scale(${scale})
     `;
-
     img.style.opacity = scale;
     img.style.zIndex = Math.round(z);
   });
